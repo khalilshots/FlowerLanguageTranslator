@@ -2,6 +2,8 @@ import os
 import flwr_lexer
 import flwr_parser
 
+os.makedirs('./logs', exist_ok=True)
+
 path = "./test_suit/"
 log_path = './logs'
 answer = 'Y'

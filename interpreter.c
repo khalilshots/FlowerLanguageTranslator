@@ -365,7 +365,7 @@ void EXECUTE(){
 
 
 
-void main(){
+int main(){
 
 
     //checking if the file is opened 
