@@ -1,0 +1,27 @@
+int width = 10;
+int depth = 10; 
+int bouquet = 0 ;
+enum garden[width] [depth] ;
+int x = 0 ; 
+int y = 0 ; 
+int i; 
+int m; 
+
+
+{ 
+ 
+//Construction of the world
+
+} 
+
+ 
+{ 
+
+
+for(i < 3) { 
+
+i = i+1; 
+
+} 
+
+} 

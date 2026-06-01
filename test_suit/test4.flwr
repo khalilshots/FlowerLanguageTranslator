@@ -1,0 +1,32 @@
+int width = 6;
+int depth = 6;
+enum garden[depth] [width] ;
+int bouquet = 0;
+int x = 0;
+int y = 0;
+
+{ 
+
+//construction of the world
+
+}
+
+{
+//This is the beginning code from the start cell to a flowerbed; x and y take the value of the current cell where the picker reached
+
+//No value assigned for initalx
+
+initialx = ;
+initialy = y;
+
+
+for(i != initialx) {
+for(j != initialy) {
+(1) moveDown ;
+
+
+// the code keeps using the four move functions following an algorithm to find and pick all flowers until it circles around the whole flowerbed
+}
+}
+}
+
