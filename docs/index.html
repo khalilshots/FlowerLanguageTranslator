@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the flower patch · a Flower language playground</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌷</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1><span class="sway">🌷</span> the flower patch</h1>
+  <p class="tagline">a tiny playground for the <strong>Flower</strong> language — write a program,
+  plant a garden, and send the picker off on a stroll.</p>
+</header>
+
+<main>
+
+  <!-- left: the writing bench -->
+  <section class="card bench">
+    <div class="card-head">
+      <h2>the program</h2>
+      <label class="picker-label">
+        load a seed packet
+        <select id="examples">
+          <option value="stroll">a little stroll</option>
+          <option value="test3">the walled flowerbed (test3)</option>
+          <option value="test1">counting practice (test1)</option>
+          <option value="test2">nested wandering (test2)</option>
+          <option value="test4">the broken one (test4)</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="editor-wrap">
+      <pre id="hl" aria-hidden="true"></pre>
+      <textarea id="code" spellcheck="false" autocomplete="off" autocapitalize="off"
+        aria-label="Flower program source code"></textarea>
+    </div>
+
+    <div class="controls">
+      <button id="plant" class="btn leafy" title="parse the program and lay out the garden">plant it 🌱</button>
+      <button id="run" class="btn sunny" title="run the logic block">take a stroll ▶</button>
+      <button id="step" class="btn" title="run one step at a time">one step</button>
+      <button id="reset" class="btn" title="put everything back">start over</button>
+      <label class="speed" title="how fast the picker walks">
+        <span>🐌</span>
+        <input type="range" id="speed" min="1" max="10" value="6">
+        <span>🐝</span>
+      </label>
+    </div>
+
+    <details class="guide">
+      <summary>field guide 🌼 <span class="hint">(what the words mean)</span></summary>
+      <div class="guide-body">
+        <p>A Flower program is three parts: <em>declarations</em>, a <em>garden block</em>, and a <em>logic block</em>.</p>
+<pre class="mini">int width = 6;          // how wide the garden is
+int depth = 6;          // how deep
+enum garden[depth][width];
+int bouquet = 0;
+
+{                       // 1st block: build the garden
+  (1, 3) putFlower ;    // (x, y) — column, row
+  (0, 0) putPicker ;
+  (5, 5) putExit ;
+}
+
+{                       // 2nd block: the stroll
+  (2) moveRight ;       // walk 2 cells right
+  ( ) pickFlower ;      // pick whatever is underfoot
+}</pre>
+        <ul>
+          <li><code>moveUp / moveDown / moveLeft / moveRight (n)</code> — walk <code>n</code> cells; rocks and the hedge stop you.</li>
+          <li><code>pickFlower ( )</code> — pick the flower you're standing on. <code>bouquet</code> goes up by one.</li>
+          <li><code>putFlower / putGrass / putBarrier / putPicker / putExit (x, y)</code> — place things.</li>
+          <li><code>check ( )</code> — what's underfoot · <code>peek ( )</code> — what's one cell ahead.
+              <span class="hint">empty 0 · flower 1 · grass 2 · rock 3 · gate 4</span></li>
+          <li><code>giveUp ( )</code> — sit down among the weeds.</li>
+          <li><code>for(i &lt; 3) { ... }</code> loops while the condition holds; <code>if / else</code> and <code>break</code> work as you'd hope.</li>
+          <li>After every move, <code>x</code> and <code>y</code> hold where the picker stands.</li>
+        </ul>
+        <p class="hint">Tip: pick a stamp on the right and click the garden — the construction block writes itself.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- right: the garden itself -->
+  <section class="card patch">
+    <div class="card-head">
+      <h2>the garden</h2>
+      <div class="palette" id="palette" role="toolbar" aria-label="stamps for painting the garden">
+        <button class="stamp selected" data-tool="flower" title="plant a flower">🌷</button>
+        <button class="stamp" data-tool="grass"  title="a tuft of grass">🌿</button>
+        <button class="stamp" data-tool="barrier" title="a rock in the way">🪨</button>
+        <button class="stamp" data-tool="picker" title="where the picker starts">🐝</button>
+        <button class="stamp" data-tool="exit"   title="the garden gate">🚪</button>
+        <button class="stamp" data-tool="erase"  title="clear a cell">🧹</button>
+      </div>
+    </div>
+
+    <div class="board-wrap" id="board-wrap">
+      <div id="board" aria-label="the garden grid"></div>
+      <div id="pickerSprite" class="picker-sprite" hidden>🐝</div>
+    </div>
+
+    <div class="status">
+      <span id="stat-bouquet" title="flowers picked">🧺 0</span>
+      <span id="stat-pos" title="where the picker stands">📍 (0, 0)</span>
+      <span id="stat-steps" title="steps taken">👣 0</span>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab selected" data-pane="console" role="tab">the diary</button>
+      <button class="tab" data-pane="tokens" role="tab">token stream</button>
+    </div>
+    <div id="console" class="pane" role="log"></div>
+    <div id="tokens" class="pane hidden"></div>
+  </section>
+
+</main>
+
+<footer>
+  grown by hand for CSC 3315 · Languages &amp; Compilers ·
+  <a href="https://github.com/khalilshots/FlowerLanguageTranslator">source</a>
+</footer>
+
+<script src="garden.js"></script>
+</body>
+</html>
