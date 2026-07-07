@@ -1,10 +1,12 @@
 # Flower Language Translator 
 
-> A domain-specific programming language for grid-based agent navigation - `with a hand-built lexer, recursive-descent parser (CST + AST), and C interpreter.
+> A domain-specific programming language for grid-based agent navigation, with a hand-built lexer, recursive-descent parser (CST + AST), and C interpreter.
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?style=flat-square)
 ![C](https://img.shields.io/badge/C-Interpreter-lightgrey?style=flat-square)
 ![Course](https://img.shields.io/badge/CSC%203315-Languages%20%26%20Compilers-orange?style=flat-square)
+
+**[Play the interactive playground →](https://khalilshots.github.io/FlowerLanguageTranslator/)**
 
 ---
 
