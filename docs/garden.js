@@ -1,4 +1,4 @@
-/* the flower patch — a browser playground for the Flower language.
+/* the flower patch, a browser playground for the Flower language.
    Mirrors the token table in flwr_lexer.py and the grammar handled by
    flwr_parser.py, plus a small tree-walking interpreter so the picker
    can actually go for a walk. */
@@ -118,14 +118,14 @@ function parse(src) {
     if (at('var')) { const t = take(); return { t: 'var', name: t.text, line: t.line }; }
     if (at('punc', '(')) {
       const open = take();
-      if (at('punc', ')')) {           // ( ) check — a call used as a value
+      if (at('punc', ')')) {           // ( ) check, a call used as a value
         take();
         const fn = expect('fn', undefined, 'a garden command after ( )');
         return { t: 'call', fn: fn.text, args: [], line: open.line };
       }
       const inner = parseExpr();
       expect('punc', ')', 'a closing )');
-      if (at('fn')) {                  // (2) peek — call with an argument
+      if (at('fn')) {                  // (2) peek, a call with an argument
         const fn = take();
         return { t: 'call', fn: fn.text, args: [inner], line: open.line };
       }
@@ -262,7 +262,7 @@ function evalExpr(e, env, world, notes) {
     case 'num': return e.v;
     case 'var': {
       if (env.has(e.name)) return env.get(e.name);
-      notes && notes.push({ kind: 'warn', msg: `“${e.name}” was never planted (declared) — using 0` });
+      notes && notes.push({ kind: 'warn', msg: `“${e.name}” was never planted (declared), so it counts as 0` });
       env.set(e.name, 0);
       return 0;
     }
@@ -299,7 +299,7 @@ function evalExpr(e, env, world, notes) {
         if (nx < 0 || ny < 0 || nx >= world.w || ny >= world.d) return CELL_CODE.barrier;
         return CELL_CODE[world.grid[ny][nx]];
       }
-      throw wilt(e.line, `${e.fn} doesn't hand back a value — only check and peek do`);
+      throw wilt(e.line, `${e.fn} doesn't hand back a value; only check and peek do`);
     }
   }
   return 0;
@@ -312,14 +312,14 @@ function buildWorld(prog) {
   let w = env.has('width') ? env.get('width') : null;
   let d = env.has('depth') ? env.get('depth') : null;
   if ((w === null || d === null) && prog.gardenDecl) {
-    // enum garden[a][b] — the test files swap the order, so trust width/depth vars first
+    // enum garden[a][b]: the test files swap the order, so trust width/depth vars first
     const a = evalExpr(prog.gardenDecl.a, env, null, notes);
     const b = evalExpr(prog.gardenDecl.b, env, null, notes);
     if (w === null) w = b;
     if (d === null) d = a;
   }
   if (!w || !d) {
-    notes.push({ kind: 'warn', msg: 'no width/depth found — planting a 6×6 garden' });
+    notes.push({ kind: 'warn', msg: 'no width or depth found, planting a 6×6 garden' });
     w = w || 6; d = d || 6;
   }
   w = Math.max(2, Math.min(14, w));
@@ -338,13 +338,13 @@ function buildWorld(prog) {
 
   for (const s of prog.garden) {
     if (s.t !== 'call') {
-      notes.push({ kind: 'warn', msg: `line ${s.line}: only (x, y) put… commands belong in the garden block — skipped` });
+      notes.push({ kind: 'warn', msg: `line ${s.line}: only (x, y) put… commands belong in the garden block, so this was skipped` });
       continue;
     }
     applyPut(world, env, s, notes);
   }
   if (!world.hasPicker) {
-    notes.push({ kind: 'warn', msg: 'no putPicker in the garden block — the picker starts at (0, 0)' });
+    notes.push({ kind: 'warn', msg: 'no putPicker in the garden block, so the picker starts at (0, 0)' });
   }
   syncXY(world, env);
   return { world, env, notes };
@@ -358,7 +358,7 @@ function applyPut(world, env, s, notes) {
   if (s.fn in PUTS || s.fn === 'putPicker') {
     const [x, y] = [vals[0] ?? 0, vals[1] ?? 0];
     if (!inBounds(x, y)) {
-      notes.push({ kind: 'warn', msg: `line ${s.line}: (${x}, ${y}) is outside the garden — skipped` });
+      notes.push({ kind: 'warn', msg: `line ${s.line}: (${x}, ${y}) is outside the garden, so it was skipped` });
       return true;
     }
     if (s.fn === 'putPicker') {
@@ -405,7 +405,7 @@ function* execStmt(s, ctx) {
   switch (s.t) {
     case 'assign': {
       if (!env.has(s.name)) {
-        notes.push({ kind: 'warn', msg: `“${s.name}” sprouted on its own — it was never declared` });
+        notes.push({ kind: 'warn', msg: `“${s.name}” sprouted on its own; it was never declared` });
       }
       env.set(s.name, evalExpr(s.value, env, world, notes));
       break;
@@ -429,7 +429,7 @@ function* execStmt(s, ctx) {
       let laps = 0;
       while (evalExpr(s.cond, env, world, notes)) {
         if (++laps > LOOP_CAP) {
-          yield { kind: 'warn', msg: `the loop on line ${s.line} ran ${LOOP_CAP} laps — stopping it before it wears a trench` };
+          yield { kind: 'warn', msg: `the loop on line ${s.line} ran ${LOOP_CAP} laps, stopping it before it wears a trench` };
           break;
         }
         yield* execStmts(s.body, ctx);
@@ -470,7 +470,7 @@ function* execCall(s, ctx, notes) {
         if (env.has('bouquet')) env.set('bouquet', world.bouquet);
         yield { kind: 'pick', x: world.px, y: world.py, bouquet: world.bouquet };
       } else {
-        yield { kind: 'warn', msg: `nothing to pick at (${world.px}, ${world.py}) — just ${here === 'grass' ? 'grass' : 'bare earth'}` };
+        yield { kind: 'warn', msg: `nothing to pick at (${world.px}, ${world.py}), just ${here === 'grass' ? 'grass' : 'bare earth'}` };
       }
       return;
     }
@@ -566,7 +566,7 @@ function rewriteConstructionBlock(src, lines) {
 /* ================= seed packets ================= */
 
 const SEEDS = {
-  stroll: `// a little stroll — picks every flower, then heads for the gate
+  stroll: `// a little stroll: picks every flower, then heads for the gate
 
 int width = 6;
 int depth = 6;
@@ -861,10 +861,10 @@ function initUI() {
       const chip = document.createElement('span');
       chip.className = `tk tk-${t.kind}`;
       chip.textContent = t.text;
-      chip.title = t.kind === 'kw' ? 'keyword' : t.kind === 'fn' ? 'built-in' : t.kind === 'var' ? 'identifier' : t.kind === 'num' ? 'integer' : t.kind;
+      chip.title = t.kind === 'kw' ? 'keyword' : t.kind === 'fn' ? 'garden command' : t.kind === 'var' ? 'identifier' : t.kind === 'num' ? 'integer' : t.kind;
       row.appendChild(chip);
     }
-    if (!tokens.length) tokensEl.textContent = 'nothing here yet — plant a program first.';
+    if (!tokens.length) tokensEl.textContent = 'nothing here yet. plant a program first.';
   }
 
   /* ---- board ---- */
@@ -962,7 +962,7 @@ function initUI() {
     showTokens(prog.tokens);
     paintCode();
     for (const n of built.notes) say(`🍂 ${n.msg}`, 'warn');
-    if (!quiet) say(`planted a ${world.w}×${world.d} garden — the picker waits at (${world.px}, ${world.py}).`, 'mut');
+    if (!quiet) say(`planted a ${world.w}×${world.d} garden. the picker waits at (${world.px}, ${world.py}).`, 'mut');
     return true;
   }
 
@@ -996,8 +996,8 @@ function initUI() {
         void sprite.offsetWidth;
         sprite.classList.add('bonk');
         say(ev.edge
-          ? `bonk — that's the hedge at the edge of the garden.`
-          : `bonk — a rock at (${ev.x}, ${ev.y}). the picker stops.`, 'warn');
+          ? `bonk! that's the hedge at the edge of the garden.`
+          : `bonk! a rock at (${ev.x}, ${ev.y}). the picker stops.`, 'warn');
         break;
       }
       case 'pick': {
@@ -1005,7 +1005,7 @@ function initUI() {
         if (cell) cell.innerHTML = '';
         petals(ev.x, ev.y, 6);
         updateStatus();
-        say(`picked a flower at (${ev.x}, ${ev.y}) — bouquet: ${ev.bouquet}`);
+        say(`picked a flower at (${ev.x}, ${ev.y}). bouquet: ${ev.bouquet}`);
         break;
       }
       case 'world':
@@ -1025,7 +1025,7 @@ function initUI() {
         petalRain();
         break;
       case 'end':
-        say(`the program ends here — the picker rests at (${world.px}, ${world.py}) with ${world.bouquet} flower${world.bouquet === 1 ? '' : 's'}.`, 'mut');
+        say(`the program ends here. the picker rests at (${world.px}, ${world.py}) with ${world.bouquet} flower${world.bouquet === 1 ? '' : 's'}.`, 'mut');
         break;
     }
   }
@@ -1054,7 +1054,7 @@ function initUI() {
   function startStroll() {
     if (timer) { stopStroll(); return; }
     if (!ensureGen()) return;
-    say('off we go —', 'mut');
+    say('off we go!', 'mut');
     $('run').textContent = 'pause ⏸';
     const loop = () => {
       // moves get the full beat; bookkeeping events hurry along

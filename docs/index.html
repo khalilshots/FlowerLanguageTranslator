@@ -14,7 +14,7 @@
 
 <header>
   <h1><span class="sway">🌷</span> the flower patch</h1>
-  <p class="tagline">a tiny playground for the <strong>Flower</strong> language — write a program,
+  <p class="tagline">a tiny playground for the <strong>Flower</strong> language. write a program,
   plant a garden, and send the picker off on a stroll.</p>
 </header>
 
@@ -64,7 +64,7 @@ enum garden[depth][width];
 int bouquet = 0;
 
 {                       // 1st block: build the garden
-  (1, 3) putFlower ;    // (x, y) — column, row
+  (1, 3) putFlower ;    // (x, y) is column, row
   (0, 0) putPicker ;
   (5, 5) putExit ;
 }
@@ -74,16 +74,16 @@ int bouquet = 0;
   ( ) pickFlower ;      // pick whatever is underfoot
 }</pre>
         <ul>
-          <li><code>moveUp / moveDown / moveLeft / moveRight (n)</code> — walk <code>n</code> cells; rocks and the hedge stop you.</li>
-          <li><code>pickFlower ( )</code> — pick the flower you're standing on. <code>bouquet</code> goes up by one.</li>
-          <li><code>putFlower / putGrass / putBarrier / putPicker / putExit (x, y)</code> — place things.</li>
-          <li><code>check ( )</code> — what's underfoot · <code>peek ( )</code> — what's one cell ahead.
+          <li><code>moveUp / moveDown / moveLeft / moveRight (n)</code> walks <code>n</code> cells; rocks and the hedge stop you.</li>
+          <li><code>pickFlower ( )</code> picks the flower you're standing on. <code>bouquet</code> goes up by one.</li>
+          <li><code>putFlower / putGrass / putBarrier / putPicker / putExit (x, y)</code> places things.</li>
+          <li><code>check ( )</code> tells you what's underfoot · <code>peek ( )</code> what's one cell ahead.
               <span class="hint">empty 0 · flower 1 · grass 2 · rock 3 · gate 4</span></li>
-          <li><code>giveUp ( )</code> — sit down among the weeds.</li>
+          <li><code>giveUp ( )</code> sits down among the weeds.</li>
           <li><code>for(i &lt; 3) { ... }</code> loops while the condition holds; <code>if / else</code> and <code>break</code> work as you'd hope.</li>
           <li>After every move, <code>x</code> and <code>y</code> hold where the picker stands.</li>
         </ul>
-        <p class="hint">Tip: pick a stamp on the right and click the garden — the construction block writes itself.</p>
+        <p class="hint">Tip: pick a stamp on the right, click the garden, and the construction block writes itself.</p>
       </div>
     </details>
   </section>

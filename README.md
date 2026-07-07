@@ -1,6 +1,6 @@
 # Flower Language Translator 
 
-> A domain-specific programming language for grid-based agent navigation - `with a hand-built lexer, recursive-descent parser (CST + AST), and C interpreter.
+> A domain-specific programming language for grid-based agent navigation, with a hand-built lexer, recursive-descent parser (CST + AST), and C interpreter.
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?style=flat-square)
 ![C](https://img.shields.io/badge/C-Interpreter-lightgrey?style=flat-square)
@@ -49,7 +49,7 @@ A C interpreter that executes structured machine code files. Implements:
 
 | Opcode | Operation |
 |--------|-----------|
-| `+0` | ASSIGN — copy variable value to memory location |
+| `+0` | ASSIGN: copy variable value to memory location |
 | `+1` | ADD |
 | `-1` | SUB |
 | `+2` | MUL |
@@ -58,9 +58,9 @@ A C interpreter that executes structured machine code files. Implements:
 | `-4` | Branch if not equal |
 | `+5` | Branch if ≥ |
 | `-5` | Branch if < |
-| `+6` | RFA — read from array |
-| `-6` | RIA — write into array |
-| `+7` | LOOP — increment and branch |
+| `+6` | RFA: read from array |
+| `-6` | RIA: write into array |
+| `+7` | LOOP: increment and branch |
 | `+8` | READ from input |
 | `-8` | PRINT to stdout |
 | `+9000000000` | HALT |
@@ -105,7 +105,7 @@ int y = 0;
 
 ## Playground
 
-An interactive playground for the language lives in [`docs/`](docs/) — write a Flower program, see its token stream, and watch the picker walk the garden grid, pick flowers, and head for the exit. You can also paint cells (flowers, barriers, grass, picker, exit) directly onto the grid and the construction block writes itself.
+An interactive playground for the language lives in [`docs/`](docs/). Write a Flower program, see its token stream, and watch the picker walk the garden grid, pick flowers, and head for the exit. You can also paint cells (flowers, barriers, grass, picker, exit) directly onto the grid and the construction block writes itself.
 
 No build step, no dependencies:
 
@@ -148,7 +148,7 @@ gcc interpreter.c -o interpreter
 | `test1.flwr` | Basic for loop, variable declarations, 10×10 garden |
 | `test2.flwr` | Nested for loops, navigation algorithm scaffold |
 | `test3.flwr` | Full garden construction (barriers, flowers, grass, picker, exit) + if/else |
-| `test4.flwr` | Intentionally malformed (missing assignment value) — tests parser error reporting |
+| `test4.flwr` | Intentionally malformed (missing assignment value) to test parser error reporting |
 
 ---
 
@@ -158,7 +158,7 @@ gcc interpreter.c -o interpreter
 FlowerLanguageTranslator/
 ├── flwr_lexer.py       Lexical analyzer (54-token table, symbol + variable tables)
 ├── flwr_parser.py      Recursive-descent parser (CST + AST construction)
-├── main.py             Entry point — runs lexer + parser on all .flwr files
+├── main.py             Entry point that runs lexer + parser on all .flwr files
 ├── interpreter.c       C interpreter with full opcode execution engine
 ├── test_suit/
 │   ├── test1.flwr
@@ -173,7 +173,7 @@ FlowerLanguageTranslator/
 ## Known Limitations
 
 - Code generation (CST → machine code) is not implemented in this version. The interpreter is functional and executes machine code files when provided directly.
-- The interpreter's `main()` function expects a hardcoded `loop.txt` input file — update the filename before running.
+- The interpreter's `main()` function expects a hardcoded `loop.txt` input file, so update the filename before running.
 
 ---
 
