@@ -105,15 +105,15 @@ int y = 0;
 
 ## Playground
 
-An interactive playground for the language lives in [`docs/`](docs/) — write a Flower program, see its token stream, and watch the picker walk the garden grid, pick flowers, and head for the exit. You can also paint cells (flowers, barriers, grass, picker, exit) directly onto the grid and the construction block writes itself.
+An interactive playground for the language lives in [`docs/`](docs/). Write a Flower program, see its token stream, and watch the picker walk the garden grid, pick flowers, and head for the exit. You can also paint cells (flowers, barriers, grass, picker, exit) directly onto the grid and the construction block writes itself.
 
-No build step, no dependencies:
+**Try it live:** https://khalilshots.github.io/FlowerLanguageTranslator/
+
+Or run locally (no build step, no dependencies):
 
 ```bash
 open docs/index.html        # or just double-click it
 ```
-
-It also works as a GitHub Pages site (Settings → Pages → deploy from `main` / `docs`).
 
 ---
 
